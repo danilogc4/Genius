@@ -58,7 +58,14 @@ public class Multiplayer extends GameMode {
 
     @Override
     protected void win() {
+<<<<<<< Updated upstream
         System.out.println(players);        
+=======
+        System.out.println(players);
+        for(Player player : players){
+            player.incrementScore();
+        }        
+>>>>>>> Stashed changes
     }
 
     private Color getRandomColor(){
