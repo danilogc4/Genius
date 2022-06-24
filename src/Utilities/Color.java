@@ -18,4 +18,13 @@ public enum Color {
     public String getDescription(){
         return this.description;
     }
+
+    public static Color fromInt(int n) {
+        for (Color color : Color.values()) {
+            if (color.getValue() == n) {
+                return color;
+            }
+        }
+        return null;
+    }
 };
