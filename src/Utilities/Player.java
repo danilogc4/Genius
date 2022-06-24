@@ -4,6 +4,7 @@ import java.util.Scanner;
 public class Player {
     String name;
     int score;
+    
 
     public Player(String name) {
         this.name = name;
@@ -11,9 +12,9 @@ public class Player {
     }
 
     public Color choose(){
-        try (Scanner sc = new Scanner(System.in)) {
-            return Color.valueOf(sc.nextLine());
-        }
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        return Color.fromInt(n);
     }
 
     public String getName() {
