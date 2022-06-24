@@ -2,20 +2,34 @@ package GameModes;
 
 import java.util.Random;
 import Utilities.Color;
+import Utilities.Player;
 
 public class RepeatSequence extends GameMode {
 
+    private final String DEFEAT_MESSAGE = String.format("%s, você perdeu!", currentPlayer.getName());
+    private final String WIN_MESSAGE = String.format("Parabéns, %s, você ganhou!", currentPlayer.getName());
 
-    public RepeatSequence() {
-        super();
+
+    public RepeatSequence(Player currentPlayer) {
+        super(currentPlayer);
     }
 
     @Override
-    public void run() {
-        while(sequence.size() <= round){
+    public void run(int difficulty) throws InterruptedException {
+        while(sequence.size() < difficulty){
             update();
-            
-        }  
+            clearConsole();
+            printSequence();
+            clearConsole();
+            for(Color color : sequence){
+                Color playerChoice = currentPlayer.choose();
+                if(color != playerChoice){
+                    defeat();
+                    return;
+                }
+            }
+        }
+        win();  
     }
 
     @Override
@@ -26,6 +40,17 @@ public class RepeatSequence extends GameMode {
 
     private Color getRandomColor(){
         return Color.values()[new Random().nextInt(Color.values().length)];
+    }
+
+    @Override
+    protected void defeat() {
+        System.out.println(DEFEAT_MESSAGE);
+    }
+
+    @Override
+    protected void win() {
+        System.out.println(WIN_MESSAGE);
+        currentPlayer.incrementScore();        
     }
     
     
