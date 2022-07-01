@@ -10,6 +10,8 @@ public class Multiplayer extends GameMode {
     
     ArrayList<Player> players;
     private final String ELIMINATION_MSG = String.format("%s, você foi eliminado!", currentPlayer.getName());
+    private final String UNIQUE_WIN_MESSAGE = String.format("Parabéns, %s, você foi o ganhador único!", currentPlayer.getName());
+    private final String MULTIPLE_WIN_MENSSAGE = ("Parabéns, %s, vocês ganharam!");
 
     public Multiplayer(Player currentPlayer) {
         super(currentPlayer);
@@ -29,9 +31,8 @@ public class Multiplayer extends GameMode {
             clearConsole();
             printSequence();
             clearConsole();
-            System.out.println(players);
             for(int i = 0; i < sequence.size(); i++){
-                currentPlayer = this.players.get(i % this.players.size());
+               currentPlayer = this.players.get(i % this.players.size());
                 System.out.println("Vez de " + currentPlayer.getName());
                 Color playerChoice = currentPlayer.choose();
                 if(sequence.get(i) != playerChoice){
@@ -57,7 +58,7 @@ public class Multiplayer extends GameMode {
 
     @Override
     protected void win() {
-        System.out.println(players);
+        System.out.println(players.size() == 1 ? UNIQUE_WIN_MESSAGE : String.format(MULTIPLE_WIN_MENSSAGE, buildWinnersList()));
         for(Player player : players){
             player.incrementScore();
         }        
@@ -65,6 +66,15 @@ public class Multiplayer extends GameMode {
 
     private Color getRandomColor(){
         return Color.values()[new Random().nextInt(Color.values().length)];
+    }
+
+    private String buildWinnersList(){
+        String s = "";
+        for(int i = 0; i < players.size() - 2; i++){
+            s+=String.format("%s,", players.get(i).getName());
+        }
+        s+=String.format("%s e %s", players.get(players.size() - 2).getName(), players.get(players.size() - 1).getName());
+        return s;
     }
     
 }

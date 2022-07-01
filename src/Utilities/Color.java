@@ -27,4 +27,13 @@ public enum Color {
         }
         return null;
     }
+
+    public static String toListString(){
+        String s = "";
+        for (Color color : Color.values()) {
+            s+= String.format("%s - %s\n", color.getValue(), color.getDescription());
+        }
+
+        return s;
+    }
 };

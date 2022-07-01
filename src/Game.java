@@ -22,8 +22,9 @@ public class Game {
     private final String DIFFICULTY_OPTIONS = "A - Fácil\nB - Médio\nC - Difícil\nD - Insano";
     private final String ERROR_DIFFICULTY_MESSAGE = "Digite uma opção de dificuldade válida: ";
     private final String CLOSING_MESSAGE = "Saindo...";
+    private final String NUMBER_OF_PLAYERS_ERROR = "Só é possível jogar multiplayer de 2 a 4 jogadores!";
 
-    private final int EASY = 4;
+    private final int EASY = 2;
     private final int MEDIUM = 14;
     private final int HARD = 20;
     private final int INSANE = 31;
@@ -110,8 +111,14 @@ public class Game {
                 break;
             case '3':
                 sc.nextLine();
-                System.out.println(REQUEST_NUMBER_PLAYER);
-                int n = sc.nextInt();
+                int n;
+                do {
+                    System.out.println(REQUEST_NUMBER_PLAYER);
+                    n = sc.nextInt();
+                    if(n < 1 || n > 4){
+                        System.out.println(NUMBER_OF_PLAYERS_ERROR);
+                    }
+                } while(n < 1 || n > 4);
                 this.gameMode = new Multiplayer(requestPlayers(n));
         }
     }
@@ -128,8 +135,8 @@ public class Game {
             players.add(player);
 
         } else if(n > 1 && n <=4){
+            sc.nextLine();
             for(int i = 1; i <=n; i++){
-                sc.nextLine();
                 System.out.print(String.format(REQUEST_NAME_MULTIPLAYER, i));
                 String playerName = sc.nextLine();
                 Player player =  new Player(playerName);
